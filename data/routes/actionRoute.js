@@ -18,7 +18,7 @@ router.get('/:id', (req, res) => {
 })
 router.post('/', (req, res) => {
     const { project_id, description, notes, completed } = req.body;
-    if (!project_id || !description) {
+    if (!project_id || !description || notes) {
         res.status(400).json({ errorMessage: "Please provide a project_id and description for the action." })
     }
     actionModel.insert({ project_id, description, notes, completed })
