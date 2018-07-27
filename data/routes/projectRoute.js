@@ -16,5 +16,14 @@ router.get('/:id', (req, res) => {
         })
         .catch(err => res.status(500).json({ error: "The project information could not be retrieved." }))
 })
+router.post('/', (req, res) => {
+    const { name, description, completed } = req.body;
+    if (!name || !description) {
+        res.status(400).json({ errorMessage: "Please provide a name and description for the project." })
+    }
+    projectModel.insert({ name, description, completed })
+        .then(response => res.status(201).json(response))
+        .catch(err => res.status(500).json({ error: "The project could not be saved to the database" }))
+})
 
 module.exports = router;

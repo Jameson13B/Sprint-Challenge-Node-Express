@@ -16,5 +16,14 @@ router.get('/:id', (req, res) => {
         })
         .catch(err => res.status(500).json({ error: "The action information could not be retrieved." }))
 })
+router.post('/', (req, res) => {
+    const { project_id, description, notes, completed } = req.body;
+    if (!project_id || !description) {
+        res.status(400).json({ errorMessage: "Please provide a project_id and description for the action." })
+    }
+    actionModel.insert({ project_id, description, notes, completed })
+        .then(response => res.status(201).json(response))
+        .catch(err => res.status(500).json({ error: "The action could not be saved to the database" }))
+})
 
 module.exports = router;
