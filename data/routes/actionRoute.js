@@ -25,5 +25,16 @@ router.post('/', (req, res) => {
         .then(response => res.status(201).json(response))
         .catch(err => res.status(500).json({ error: "The action could not be saved to the database" }))
 })
+router.delete('/:id', (req, res) => {
+    actionModel.remove(req.params.id)
+        .then(response => {
+            if (!response) {
+                res.status(404).json({ message: "The action with the ID does not exist." })
+            } else {
+                res.status(200).json({ message: "The action has been deleted."})
+            }
+        })
+        .catch(err => res.status(500).json({ error: "The action could not be removed." }))
+})
 
 module.exports = router;

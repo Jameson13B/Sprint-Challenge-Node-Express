@@ -25,5 +25,16 @@ router.post('/', (req, res) => {
         .then(response => res.status(201).json(response))
         .catch(err => res.status(500).json({ error: "The project could not be saved to the database" }))
 })
+router.delete('/:id', (req, res) => {
+    projectModel.remove(req.params.id)
+        .then(response => {
+            if (!response) {
+                res.status(404).json({ message: "The project with the ID does not exist." })
+            } else {
+                res.status(200).json({ message: "The project has been deleted."})
+            }
+        })
+        .catch(err => res.status(500).json({ error: "The project could not be removed." }))
+})
 
 module.exports = router;
