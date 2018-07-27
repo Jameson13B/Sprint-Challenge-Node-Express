@@ -36,5 +36,20 @@ router.delete('/:id', (req, res) => {
         })
         .catch(err => res.status(500).json({ error: "The project could not be removed." }))
 })
+router.put('/:id', (req, res) => {
+    const { name, description, completed } = req.body;
+    if (!name || !description ) {
+        res.status(400).json({ errorMessage: "Please provide name and description for the project." })
+    }
+    projectModel.update(req.params.id, { name, description, completed })
+        .then(response => {
+            if (response === null) {
+                res.status(404).json({ message: "The project with the specified ID does not exist." })
+            } else {
+                res.status(200).json({ response });
+            }
+        })
+        .catch(err => res.status(500).json({ error: "The project could not be updated" }))
+})
 
 module.exports = router;
